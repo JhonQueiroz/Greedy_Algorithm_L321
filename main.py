@@ -48,7 +48,6 @@ def run_experiment(graph_name, graph, iterations, file_name):
 def main():
   
   file_name = "result.txt"
-  open(file_name, 'w').close()  
   iterations = 100  
   
   # Grafos gerados pela biblioteca NetworkX
@@ -70,19 +69,26 @@ def main():
   
   # Executa o algoritmo genético para os grafos da biblioteca NetworkX
   for graph_name, graph in graphs:
+    
+    # Gerar um mapeamento de coordenadas (i, j) para inteiros
+    mapping = {node: i for i, node in enumerate(graph.nodes())}
+
+    # Renomeie os nós no gráfico usando o mapeamento
+    graph = nx.relabel_nodes(graph, mapping)
+    
     run_experiment(graph_name, graph, iterations, file_name)
   
   # Grafos gerados a partir dos arquivos.
-  # file_graphs = [
-  #   ("Grafo do arquivo 1", create_graph_from_file("dsjc250.5.col", False)),
-  #       ("Grafo do arquivo 2", create_graph_from_file("dsjc500.1.col", False)),
-  #       ("Grafo do arquivo 3", create_graph_from_file("dsjc500.5.col", False)),
-  #       ("Grafo do arquivo 4", create_graph_from_file("dsjc1000.1.col", False)),
-  #   ]
+  file_graphs = [
+    ("Grafo do arquivo 1", create_graph_from_file("dsjc250.5.col", False)),
+        ("Grafo do arquivo 2", create_graph_from_file("dsjc500.1.col", False)),
+        ("Grafo do arquivo 3", create_graph_from_file("dsjc500.5.col", False)),
+        ("Grafo do arquivo 4", create_graph_from_file("dsjc1000.1.col", False)),
+    ]
   
-  # # Executa o algoritmo genético para os grafos dos arquivos
-  # for graph_name, graph in file_graphs:
-  #   run_experiment(graph_name, graph, iterations, file_name)
+  # Executa o algoritmo genético para os grafos dos arquivos
+  for graph_name, graph in file_graphs:
+    run_experiment(graph_name, graph, iterations, file_name)
 
 
 # Executa a função main.
